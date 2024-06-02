@@ -40,7 +40,7 @@ void loop() {
    int timeChange = (now - lastTime);
    if(timeChange>=500 )
    {
-      input = (360.0*1000*(encoderPos-last_pos)) /(289.0*(now - lastTime));
+      input = (360.0*1000*(encoderPos-last_pos)) /(1856.0*(now - lastTime));
       lastTime=now;
       last_pos=encoderPos;
    }
@@ -69,7 +69,7 @@ void encoder()  {                                     // pulse and direction, di
 void requestEvent() {
   int8_t s;
   
-  s= (360.0*(encoderPos-lastpos))/289.0; //change in position in degrees of the wheel
+  s= (360.0*(encoderPos-lastpos))/281.7; //change in position in degrees of the wheel
   lastpos=encoderPos;
   Wire.write(s); // respond with message of 6 bytes
 }

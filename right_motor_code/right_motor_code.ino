@@ -1,16 +1,19 @@
 // PID motor position control.
 // Thanks to Brett Beauregard for his nice PID library http://brettbeauregard.com/blog/2011/04/improving-the-beginners-pid-introduction/
-
+#include <ros.h>
 #include <PinChangeInt.h>
 #include <Wire.h>
 #include <PID_v1.h>
+
+#define I2C_SDA A4
+#define I2C_SCL A5
+
 #define encodPinA1      2                       // Quadrature encoder A pin
 #define encodPinB1      8                       // Quadrature encoder B pin
 #define M1              9                       // PWM outputs to L298N H-Bridge motor driver module
 #define M2              10
 
-// double kp =1, ki =20 , kd =0;             // modify for optimal performance
-double kp =1, ki =20 , kd =0;  
+double kp =1, ki =20 , kd =0;             // modify for optimal performance
 double input = 0, output = 0, setpoint = 0;
 unsigned long lastTime,now;
 volatile long encoderPos = 0,last_pos=0,lastpos=0;
@@ -24,11 +27,10 @@ void setup() {
   myPID.SetMode(AUTOMATIC);
   myPID.SetSampleTime(1);
   myPID.SetOutputLimits(-255, 255);
-  
   Wire.begin(9);                // join i2c bus with address #9 for Right Motor
   Wire.onRequest(requestEvent); // register events
   Wire.onReceive(receiveEvent);
-  Serial.begin (9600); 
+  //Serial.begin (9600); 
   
 }
 
@@ -37,7 +39,6 @@ void loop() {
    int timeChange = (now - lastTime);
    if(timeChange>=500 )
    {
-      // input = (360.0*1000*(encoderPos-last_pos)) /(1856.0*(now - lastTime));
       input = (360.0*1000*(encoderPos-last_pos)) /(1856.0*(now - lastTime));
       lastTime=now;
       last_pos=encoderPos;
@@ -67,7 +68,7 @@ void encoder()  {                                     // pulse and direction, di
 void requestEvent() {
   int8_t s;
   
-  s= (360.0*(encoderPos-lastpos))/285.0; //change in position in degrees of the wheel
+  s= (360.0*(encoderPos-lastpos))/272.8; //change in position in degrees of the wheel(UPPER Arduino)
   lastpos=encoderPos;
   Wire.write(s); // respond with message of 6 bytes
 }
