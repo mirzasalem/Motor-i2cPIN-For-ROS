@@ -68,7 +68,7 @@ void encoder()  {                                     // pulse and direction, di
 void requestEvent() {
   int8_t s;
   
-  s= (360.0*(encoderPos-lastpos))/272.8; //change in position in degrees of the wheel(UPPER Arduino)
+  s= (360.0*(encoderPos-lastpos))/287; //change in position in degrees of the wheel(UPPER Arduino)
   lastpos=encoderPos;
   Wire.write(s); // respond with message of 6 bytes
 }

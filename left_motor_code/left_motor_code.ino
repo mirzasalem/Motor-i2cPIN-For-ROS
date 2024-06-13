@@ -69,7 +69,7 @@ void encoder()  {                                     // pulse and direction, di
 void requestEvent() {
   int8_t s;
   
-  s= (360.0*(encoderPos-lastpos))/281.7; //change in position in degrees of the wheel
+  s= (360.0*(encoderPos-lastpos))/288; //change in position in degrees of the wheel
   lastpos=encoderPos;
   Wire.write(s); // respond with message of 6 bytes
 }
