@@ -13,7 +13,7 @@
 #define M1              9                       // PWM outputs to L298N H-Bridge motor driver module
 #define M2              10
 
-double kp =1, ki =20 , kd =0;             // modify for optimal performance
+double kp =1.8, ki =20 , kd =0;             // modify for optimal performance
 double input = 0, output = 0, setpoint = 0;
 unsigned long lastTime,now;
 volatile long encoderPos = 0,last_pos=0,lastpos=0;
@@ -26,7 +26,7 @@ void setup() {
   
   myPID.SetMode(AUTOMATIC);
   myPID.SetSampleTime(1);
-  myPID.SetOutputLimits(-255, 255);
+  myPID.SetOutputLimits(-200, 200);
   Wire.begin(9);                // join i2c bus with address #9 for Right Motor
   Wire.onRequest(requestEvent); // register events
   Wire.onReceive(receiveEvent);
